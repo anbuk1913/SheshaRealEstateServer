@@ -15,6 +15,11 @@ export class PropertyRepository {
     return { data, total, page, totalPages: Math.ceil(total / limit) };
   }
 
+  async findById(id: string) {
+    return Property.findById(id)
+      .populate('location').populate('category');
+  }
+
   async findBySlug(slug: string) {
     return Property.findOne({ slug })
       .populate('location').populate('category');

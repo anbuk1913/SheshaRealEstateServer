@@ -20,14 +20,19 @@ export class PropertyService {
     return property;
   }
 
+  // ← new
+  async getById(id: string) {
+    return propertyRepository.findById(id);
+  }
+
   async getFeatured() {
     return propertyRepository.findFeatured();
   }
 
   async create(payload: Partial<IProperty>) {
-    if (!payload.slug && payload.title) {
-      payload.slug = slugify(payload.title, { lower: true, strict: true });
-    }
+    // if (!payload.slug && payload.title) {
+    //   payload.slug = slugify(payload.title, { lower: true, strict: true });
+    // }
     return propertyRepository.create(payload);
   }
 

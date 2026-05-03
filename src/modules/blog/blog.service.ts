@@ -13,6 +13,10 @@ export class BlogService {
     return blog;
   }
 
+  async getById(id: string) {
+    return blogRepository.findById(id);
+  }
+
   async create(payload: Partial<IBlog>) {
     if (!payload.slug && payload.title) {
       payload.slug = slugify(payload.title, { lower: true, strict: true });
