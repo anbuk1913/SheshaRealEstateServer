@@ -12,7 +12,7 @@ export const getProperties = asyncHandler(async (req, res) => {
 });
 
 export const getProperty = asyncHandler(async (req, res) => {
-  const property = await propertyService.getBySlug(req.params.slug);
+  const property = await propertyService.getById(req.params.id);
   res.json(ok(property));
 });
 
@@ -70,9 +70,6 @@ export const updateProperty = asyncHandler(async (req: Request, res: Response) =
       bedrooms:     Number(req.body.bedrooms),
       bathrooms:    Number(req.body.bathrooms),
       area:         Number(req.body.area),
-      amenities:    req.body.amenities
-        ? JSON.parse(req.body.amenities)
-        : [],
     };
 
     const property = await propertyService.update(req.params.id, payload);

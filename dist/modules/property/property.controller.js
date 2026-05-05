@@ -12,7 +12,7 @@ exports.getProperties = (0, asyncHandler_1.asyncHandler)(async (req, res) => {
     }));
 });
 exports.getProperty = (0, asyncHandler_1.asyncHandler)(async (req, res) => {
-    const property = await property_service_1.propertyService.getBySlug(req.params.slug);
+    const property = await property_service_1.propertyService.getById(req.params.id);
     res.json((0, apiResponse_1.ok)(property));
 });
 exports.getFeaturedProperties = (0, asyncHandler_1.asyncHandler)(async (req, res) => {
@@ -63,9 +63,6 @@ exports.updateProperty = (0, asyncHandler_1.asyncHandler)(async (req, res) => {
             bedrooms: Number(req.body.bedrooms),
             bathrooms: Number(req.body.bathrooms),
             area: Number(req.body.area),
-            amenities: req.body.amenities
-                ? JSON.parse(req.body.amenities)
-                : [],
         };
         const property = await property_service_1.propertyService.update(req.params.id, payload);
         res.json((0, apiResponse_1.ok)(property, 'Property updated'));
