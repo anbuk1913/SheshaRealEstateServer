@@ -36,21 +36,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importStar(require("mongoose"));
 const PropertySchema = new mongoose_1.Schema({
     title: { type: String, required: true, trim: true },
-    slug: { type: String, required: true, unique: true },
     description: { type: String, required: true },
-    price: { type: Number, required: true },
-    location: { type: mongoose_1.Schema.Types.ObjectId, ref: 'Location', required: true },
-    category: { type: mongoose_1.Schema.Types.ObjectId, ref: 'PropertyCategory', required: true },
+    location: { type: mongoose_1.Schema.Types.ObjectId, ref: 'Location', required: false },
+    category: { type: mongoose_1.Schema.Types.ObjectId, ref: 'Category', required: false },
     images: [{ type: String }],
-    amenities: [{ type: String }],
     status: { type: String, enum: ['available', 'sold', 'rented'], default: 'available' },
     featured: { type: Boolean, default: false },
     isNewProject: { type: Boolean, default: false },
-    bedrooms: { type: Number, default: 0 },
-    bathrooms: { type: Number, default: 0 },
-    area: { type: Number, default: 0 },
 }, { timestamps: true });
 // PropertySchema.index({ slug: 1 });
-PropertySchema.index({ featured: 1, status: 1 });
-PropertySchema.index({ category: 1, location: 1 });
+// PropertySchema.index({ featured: 1, status: 1 });
+// PropertySchema.index({ category: 1, location: 1 });
 exports.default = mongoose_1.default.model('Property', PropertySchema);

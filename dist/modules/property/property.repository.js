@@ -18,6 +18,10 @@ class PropertyRepository {
         ]);
         return { data, total, page, totalPages: Math.ceil(total / limit) };
     }
+    async findById(id) {
+        return property_model_1.default.findById(id)
+            .populate('location').populate('category');
+    }
     async findBySlug(slug) {
         return property_model_1.default.findOne({ slug })
             .populate('location').populate('category');

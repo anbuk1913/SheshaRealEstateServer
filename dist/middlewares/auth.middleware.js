@@ -12,7 +12,7 @@ const protect = (req, res, next) => {
         return;
     }
     try {
-        const decoded = jsonwebtoken_1.default.verify(token, process.env.JWT_SECRET || 'sheshaSecretKey');
+        const decoded = jsonwebtoken_1.default.verify(token, process.env.JWT_SECRET);
         req.user = decoded;
         next();
     }

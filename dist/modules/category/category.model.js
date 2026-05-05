@@ -33,17 +33,9 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = require("express");
-const ctrl = __importStar(require("./property.controller"));
-const auth_middleware_1 = require("../../middlewares/auth.middleware");
-const upload_1 = require("../../utils/upload");
-const router = (0, express_1.Router)();
-const upload = (0, upload_1.createUploader)('properties', { maxSizeMB: 10 });
-router.get('/', ctrl.getProperties);
-router.get('/featured', ctrl.getFeaturedProperties);
-router.get('/:slug', ctrl.getProperty);
-// Admin-protected
-router.post('/', auth_middleware_1.protect, upload.array('images', 10), ctrl.createProperty);
-router.put('/:id', auth_middleware_1.protect, upload.array('images', 10), ctrl.updateProperty);
-router.delete('/:id', auth_middleware_1.protect, ctrl.deleteProperty);
-exports.default = router;
+const mongoose_1 = __importStar(require("mongoose"));
+const CategorySchema = new mongoose_1.Schema({
+    name: { type: String, required: true, trim: true },
+    slug: { type: String, required: true, unique: true },
+}, { timestamps: true });
+exports.default = mongoose_1.default.model('Category', CategorySchema);

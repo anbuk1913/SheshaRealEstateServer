@@ -1,10 +1,6 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.propertyService = exports.PropertyService = void 0;
-const slugify_1 = __importDefault(require("slugify"));
 const property_repository_1 = require("./property.repository");
 class PropertyService {
     async getAll(query) {
@@ -28,13 +24,17 @@ class PropertyService {
             throw new Error('Property not found');
         return property;
     }
+    // ← new
+    async getById(id) {
+        return property_repository_1.propertyRepository.findById(id);
+    }
     async getFeatured() {
         return property_repository_1.propertyRepository.findFeatured();
     }
     async create(payload) {
-        if (!payload.slug && payload.title) {
-            payload.slug = (0, slugify_1.default)(payload.title, { lower: true, strict: true });
-        }
+        // if (!payload.slug && payload.title) {
+        //   payload.slug = slugify(payload.title, { lower: true, strict: true });
+        // }
         return property_repository_1.propertyRepository.create(payload);
     }
     async update(id, payload) {
