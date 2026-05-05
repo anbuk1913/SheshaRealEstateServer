@@ -8,7 +8,7 @@ export const protect = (req: Request, res: Response, next: NextFunction): void =
     return;
   }
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'sheshaSecretKey');
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
     (req as any).user = decoded;
     next();
   } catch {

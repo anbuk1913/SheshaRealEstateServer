@@ -32,8 +32,6 @@ export const createProperty = asyncHandler(async (req: Request, res: Response) =
       featured:     req.body.featured     === 'true',
       isNewProject: req.body.isNewProject === 'true',
       price:        Number(req.body.price),
-      bedrooms:     Number(req.body.bedrooms),
-      bathrooms:    Number(req.body.bathrooms),
       area:         Number(req.body.area),
     };
 
