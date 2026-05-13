@@ -9,7 +9,7 @@ const path_1 = __importDefault(require("path"));
 const deleteFile = (filePath) => {
     if (!filePath)
         return;
-    // filePath is like /uploads/blogs/xxx.jpg — resolve from project root
+    // filePath is like /uploads/blogs/xxx.jpg - resolve from project root
     const abs = path_1.default.join(process.cwd(), filePath);
     fs_1.default.unlink(abs, (err) => {
         if (err && err.code !== 'ENOENT')
