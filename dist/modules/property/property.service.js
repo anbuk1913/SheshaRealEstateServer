@@ -1,7 +1,11 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.propertyService = exports.PropertyService = void 0;
 const property_repository_1 = require("./property.repository");
+const location_model_1 = __importDefault(require("../location/location.model"));
 class PropertyService {
     async getAll(query) {
         const { page = 1, limit = 12, category, location, status, featured, search } = query;
@@ -14,8 +18,22 @@ class PropertyService {
             filter.status = status;
         if (featured)
             filter.featured = featured === 'true';
-        if (search)
-            filter.title = { $regex: search, $options: 'i' };
+        if (search) {
+            const matchingLocations = await location_model_1.default.find({
+                $or: [
+                    { city: { $regex: search, $options: 'i' } },
+                    { area: { $regex: search, $options: 'i' } },
+                    { state: { $regex: search, $options: 'i' } },
+                ],
+            }).select('_id');
+            const locationIds = matchingLocations.map((l) => l._id);
+            filter.$or = [
+                { title: { $regex: search, $options: 'i' } },
+                ...(locationIds.length > 0
+                    ? [{ location: { $in: locationIds } }]
+                    : []),
+            ];
+        }
         return property_repository_1.propertyRepository.findAll(filter, Number(page), Number(limit));
     }
     async getBySlug(slug) {

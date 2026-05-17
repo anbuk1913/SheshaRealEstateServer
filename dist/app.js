@@ -16,6 +16,7 @@ const content_routes_1 = __importDefault(require("./modules/content/content.rout
 const media_routes_1 = __importDefault(require("./modules/media/media.routes"));
 const location_route_1 = __importDefault(require("./modules/location/location.route"));
 const category_route_1 = __importDefault(require("./modules/category/category.route"));
+const contact_routes_1 = __importDefault(require("./modules/contact/contact.routes"));
 const error_middleware_1 = require("./middlewares/error.middleware");
 dotenv_1.default.config();
 const app = (0, express_1.default)();
@@ -31,6 +32,7 @@ app.use('/api/content', content_routes_1.default);
 app.use('/api/media', media_routes_1.default);
 app.use('/api/locations', location_route_1.default);
 app.use('/api/categories', category_route_1.default);
+app.use('/api/contacts', contact_routes_1.default);
 app.use(error_middleware_1.errorHandler);
 const PORT = process.env.PORT;
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));

@@ -11,6 +11,7 @@ import contentRoutes  from './modules/content/content.routes';
 import mediaRoutes    from './modules/media/media.routes';
 import locationRoutes from './modules/location/location.route';
 import categoryRoutes from './modules/category/category.route';
+import contactRoutes  from './modules/contact/contact.routes';
 import { errorHandler } from './middlewares/error.middleware';
 
 dotenv.config();
@@ -30,6 +31,7 @@ app.use('/api/content',    contentRoutes);
 app.use('/api/media',      mediaRoutes);
 app.use('/api/locations',  locationRoutes);
 app.use('/api/categories', categoryRoutes);
+app.use('/api/contacts',   contactRoutes);
 
 app.use(errorHandler);
 
