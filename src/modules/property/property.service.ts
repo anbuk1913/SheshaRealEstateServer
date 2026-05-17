@@ -1,16 +1,38 @@
 import slugify from 'slugify';
 import { propertyRepository } from './property.repository';
 import { IProperty } from './property.model';
+import Location from '../location/location.model';
 
 export class PropertyService {
   async getAll(query: any) {
     const { page = 1, limit = 12, category, location, status, featured, search } = query;
+
     const filter: any = {};
+
     if (category) filter.category = category;
     if (location) filter.location = location;
     if (status)   filter.status   = status;
     if (featured) filter.featured = featured === 'true';
-    if (search)   filter.title    = { $regex: search, $options: 'i' };
+
+    if (search) {
+      const matchingLocations = await Location.find({
+        $or: [
+          { city: { $regex: search, $options: 'i' } },
+          { area: { $regex: search, $options: 'i' } },
+          { state: { $regex: search, $options: 'i' } },
+        ],
+      }).select('_id');
+
+      const locationIds = matchingLocations.map((l) => l._id);
+
+      filter.$or = [
+        { title: { $regex: search, $options: 'i' } },
+        ...(locationIds.length > 0
+          ? [{ location: { $in: locationIds } }]
+          : []),
+      ];
+    }
+
     return propertyRepository.findAll(filter, Number(page), Number(limit));
   }
 
