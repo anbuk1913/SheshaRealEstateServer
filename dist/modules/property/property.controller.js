@@ -12,7 +12,11 @@ exports.getProperties = (0, asyncHandler_1.asyncHandler)(async (req, res) => {
     }));
 });
 exports.getProperty = (0, asyncHandler_1.asyncHandler)(async (req, res) => {
-    const property = await property_service_1.propertyService.getById(req.params.id);
+    // Try slug first, then ID for backward compatibility
+    let property = await property_service_1.propertyService.getBySlug(req.params.slug).catch(() => null);
+    if (!property) {
+        property = await property_service_1.propertyService.getById(req.params.slug);
+    }
     res.json((0, apiResponse_1.ok)(property));
 });
 exports.getFeaturedProperties = (0, asyncHandler_1.asyncHandler)(async (req, res) => {
