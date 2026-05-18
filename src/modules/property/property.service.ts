@@ -52,13 +52,16 @@ export class PropertyService {
   }
 
   async create(payload: Partial<IProperty>) {
-    // if (!payload.slug && payload.title) {
-    //   payload.slug = slugify(payload.title, { lower: true, strict: true });
-    // }
+    if (!payload.slug && payload.title) {
+      payload.slug = slugify(payload.title, { lower: true, strict: true });
+    }
     return propertyRepository.create(payload);
   }
 
   async update(id: string, payload: Partial<IProperty>) {
+    if (payload.title && payload.slug !== slugify(payload.title, { lower: true, strict: true })) {
+      payload.slug = slugify(payload.title, { lower: true, strict: true });
+    }
     const updated = await propertyRepository.update(id, payload);
     if (!updated) throw new Error('Property not found');
     return updated;

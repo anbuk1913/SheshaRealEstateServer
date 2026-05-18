@@ -12,7 +12,11 @@ export const getProperties = asyncHandler(async (req, res) => {
 });
 
 export const getProperty = asyncHandler(async (req, res) => {
-  const property = await propertyService.getById(req.params.id);
+  // Try slug first, then ID for backward compatibility
+  let property = await propertyService.getBySlug(req.params.slug).catch(() => null);
+  if (!property) {
+    property = await propertyService.getById(req.params.slug);
+  }
   res.json(ok(property));
 });
 

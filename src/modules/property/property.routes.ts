@@ -8,7 +8,7 @@ const upload = createUploader('properties', { maxSizeMB: 10 });
 
 router.get('/',         ctrl.getProperties);
 router.get('/featured', ctrl.getFeaturedProperties);
-router.get('/:id',    ctrl.getProperty);
+router.get('/:slug',    ctrl.getProperty);
 
 // Admin-protected
 router.post('/',   protect, upload.array('images', 10), ctrl.createProperty);
